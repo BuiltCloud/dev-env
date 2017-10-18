@@ -5,13 +5,9 @@ LABEL Name=aspnetcore-debug Version=latest
 ENV TZ=Asia/Shanghai
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-
     && apt-get update \
-
     && apt-get install -y curl unzip \
-
     && apt-get install -y procps \
-    
     && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l ~/vsdbg
 
 WORKDIR /app
