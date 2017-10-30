@@ -58,7 +58,7 @@ services:
       - ~/Documents/CnblogsProjects/UcHome/Migrate2Core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "ucenter:api.ucenter.cnblogs.com"
-      #   - redis
+      - "job:api.job.cnblogs.com"
     extra_hosts:
       - "dbserver:192.168.199.143"
       - "ucenter.cnblogs.com:192.168.199.143"
@@ -92,6 +92,17 @@ services:
       - "redis:192.168.199.143"
     container_name: ucenter
 
+  job:
+    build: ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    extra_hosts:
+      - "dbserver:192.168.199.143"
+      - "memcached:192.168.199.143"
+      - "redis:192.168.199.143"
+    container_name: job
+
   cache-server:
     image: jamesdbloom/mockserver
     restart: always
@@ -107,6 +118,7 @@ services:
       - blog-admin
       - uchome
       - ucenter
+      - job
       # - redis
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
