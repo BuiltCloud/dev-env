@@ -103,6 +103,19 @@ services:
       - "redis:192.168.199.143"
     container_name: job
 
+  upload:
+    build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.0/publish:/app
+    links:
+      - "ucenter:api.ucenter.cnblogs.com"
+    extra_hosts:
+      - "dbserver:192.168.199.143"
+      - "memcached:192.168.199.143"
+      - "redis:192.168.199.143"
+    container_name: upload
+
   cache-server:
     image: jamesdbloom/mockserver
     restart: always
