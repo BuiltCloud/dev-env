@@ -4,6 +4,8 @@ LABEL Name=aspnetcore-debug Version=latest
 
 ENV TZ=Asia/Shanghai
 
+ENV ASPNETCORE_ENVIRONMENT Development
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && apt-get update \
     && apt-get install -y curl unzip \

@@ -52,13 +52,15 @@ services:
         max-file: "10"
 
   uchome:
-    build: ~/Documents/CnblogsProjects/UcHome/Migrate2Core/src/Cnblogs.UcHome.Web
+    build: ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web
     restart: always
     volumes:
-      - ~/Documents/CnblogsProjects/UcHome/Migrate2Core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.0/publish:/app
+      - ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "ucenter:api.ucenter.cnblogs.com"
       - "job:api.job.cnblogs.com"
+      - "cache-server: cache.cnblogs.com"
+      - "edu-api:api.edu.cnblogs.com"
     extra_hosts:
       - "dbserver:192.168.199.143"
       - "ucenter.cnblogs.com:192.168.199.143"
@@ -81,6 +83,7 @@ services:
   ucenter:
     build: ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI
     restart: always
+    # mem_limit: 60m
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.0/publish:/app
     links:
@@ -91,6 +94,19 @@ services:
       - "memcached:192.168.199.143"
       - "redis:192.168.199.143"
     container_name: ucenter
+
+  # academy:
+  #   build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   # links:
+  #   #   - redis
+  #   extra_hosts:
+  #     - "dbserver:192.168.199.143"
+  #     - "memcached:192.168.199.143"
+  #     - "redis:192.168.199.143"
+  #   container_name: academy
 
   job:
     build: ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi
@@ -103,6 +119,19 @@ services:
       - "redis:192.168.199.143"
     container_name: job
 
+  edu-api:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: EduApiDockerfile
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    extra_hosts:
+      - "dbserver:192.168.199.143"
+      - "memcached:192.168.199.143"
+      - "redis:192.168.199.143"
+    container_name: edu-api
+
   upload:
     build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
     restart: always
@@ -110,6 +139,7 @@ services:
       - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "ucenter:api.ucenter.cnblogs.com"
+      - "ucenter:service.cnblogs.com"
     extra_hosts:
       - "dbserver:192.168.199.143"
       - "memcached:192.168.199.143"
@@ -142,4 +172,3 @@ services:
       options:
         max-size: "50k"
         max-file: "10"
-
