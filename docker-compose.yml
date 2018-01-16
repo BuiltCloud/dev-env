@@ -159,6 +159,15 @@ services:
       - "redis:192.168.199.143"
     container_name: cache-server
 
+  roster:
+    build:
+      context: ./Dockerfiles
+      dockerfile: RosterDockerfile
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CnblogsRoster/Web/bin/Debug/netcoreapp2.0/publish:/app
+    container_name: roster
+
   nginx-host:
     build: ./nginx
     restart: always
