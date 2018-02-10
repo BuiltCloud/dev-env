@@ -1,10 +1,5 @@
 version: "2"
 services:
-  # redis:
-  #   build: ./redis/
-  #   restart: always
-  #   container_name: mac-redis 
-
   # identity:
   #   build: ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/
   #   restart: always
@@ -69,7 +64,6 @@ services:
       - "blog.wcf.cnblogs.com:192.168.199.143"
       - "news.wcf.cnblogs.com:192.168.199.143"
       - "kb.wcf.cnblogs.com:192.168.199.143"
-      - "job.cnblogs.com:192.168.199.143"
       - "api.ing.cnblogs.com:192.168.199.143"
       - "memcached:192.168.199.143"
       - "redis:192.168.199.143"
@@ -159,14 +153,14 @@ services:
       - "redis:192.168.199.143"
     container_name: cache-server
 
-  roster:
-    build:
-      context: ./Dockerfiles
-      dockerfile: RosterDockerfile
-    restart: always
-    volumes:
-      - ~/Documents/CnblogsProjects/CnblogsRoster/Web/bin/Debug/netcoreapp2.0/publish:/app
-    container_name: roster
+  # roster:
+  #   build:
+  #     context: ./Dockerfiles
+  #     dockerfile: RosterDockerfile
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/CnblogsRoster/src/Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   container_name: roster
 
   nginx-host:
     build: ./nginx
@@ -179,7 +173,7 @@ services:
       - uchome
       - ucenter
       - job
-      # - redis
+      - redis
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
       - /Users/Feng/Documents/CnblogsProjects/WebCommon:/www/data
@@ -189,3 +183,10 @@ services:
       options:
         max-size: "50k"
         max-file: "10"
+
+  redis:
+    build: ./redis/
+    restart: always
+    ports:
+      - "6379:6379"
+    container_name: mac-redis 
