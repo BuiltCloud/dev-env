@@ -1,22 +1,24 @@
 version: "2"
 services:
-  # identity:
-  #   build: ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/
-  #   restart: always
-  #   volumes:
-  #     - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp1.1/publish:/app
-  #   # links:
-  #   #   - service.ucenter.cnblogs.com
-  #   extra_hosts:
-  #     - "dbserver:192.168.199.143"
-  #     - "memcached:192.168.199.143"
-  #     - "redis:192.168.199.143"
-  #   container_name: identity
-  #   logging:
-  #     driver: "json-file"
-  #     options:
-  #       max-size: "50k"
-  #       max-file: "10"
+  identity:
+    build:
+      context: ./Dockerfiles
+      dockerfile: identity
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp2.0/publish:/app
+    # links:
+    #   - service.ucenter.cnblogs.com
+    extra_hosts:
+      - "dbserver:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
+    container_name: identity
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50k"
+        max-file: "10"
 
   # blog-admin:
   #   build: ~/Documents/CnblogsProjects/BlogServer/MigrateToCore/src/BlogServerAdmin.Web
@@ -26,19 +28,19 @@ services:
   #   links:
   #     - "ucenter:api.ucenter.cnblogs.com"
   #   extra_hosts:
-  #     - "dbserver:192.168.199.143"
-  #     - "ucenter.cnblogs.com:192.168.199.143"
-  #     - "service.ucenter.cnblogs.com:192.168.199.143"
-  #     - "service.msg.cnblogs.com:192.168.199.143"
-  #     - "blog.wcf.cnblogs.com:192.168.199.143"
-  #     - "news.wcf.cnblogs.com:192.168.199.143"
-  #     - "kb.wcf.cnblogs.com:192.168.199.143"
-  #     - "job.cnblogs.com:192.168.199.143"
-  #     - "api.ing.cnblogs.com:192.168.199.143"
-  #     - "memcached:192.168.199.143"
-  #     - "redis:192.168.199.143"
-  #     - "markdown.cnblogs.com:192.168.199.143"
-  #     - "api.upload.cnblogs.com:192.168.199.143"
+  #     - "dbserver:172.16.54.128"
+  #     - "ucenter.cnblogs.com:172.16.54.128"
+  #     - "service.ucenter.cnblogs.com:172.16.54.128"
+  #     - "service.msg.cnblogs.com:172.16.54.128"
+  #     - "blog.wcf.cnblogs.com:172.16.54.128"
+  #     - "news.wcf.cnblogs.com:172.16.54.128"
+  #     - "kb.wcf.cnblogs.com:172.16.54.128"
+  #     - "job.cnblogs.com:172.16.54.128"
+  #     - "api.ing.cnblogs.com:172.16.54.128"
+  #     - "memcached:172.16.54.128"
+  #     - "redis:172.16.54.128"
+  #     - "markdown.cnblogs.com:172.16.54.128"
+  #     - "api.upload.cnblogs.com:172.16.54.128"
   #   container_name: blog-admin
   #   logging:
   #     driver: "json-file"
@@ -57,16 +59,16 @@ services:
       - "cache-server: cache.cnblogs.com"
       - "edu-api:api.edu.cnblogs.com"
     extra_hosts:
-      - "dbserver:192.168.199.143"
-      - "ucenter.cnblogs.com:192.168.199.143"
-      - "service.ucenter.cnblogs.com:192.168.199.143"
-      - "service.msg.cnblogs.com:192.168.199.143"
-      - "blog.wcf.cnblogs.com:192.168.199.143"
-      - "news.wcf.cnblogs.com:192.168.199.143"
-      - "kb.wcf.cnblogs.com:192.168.199.143"
-      - "api.ing.cnblogs.com:192.168.199.143"
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "dbserver:172.16.54.128"
+      - "ucenter.cnblogs.com:172.16.54.128"
+      - "service.ucenter.cnblogs.com:172.16.54.128"
+      - "service.msg.cnblogs.com:172.16.54.128"
+      - "blog.wcf.cnblogs.com:172.16.54.128"
+      - "news.wcf.cnblogs.com:172.16.54.128"
+      - "kb.wcf.cnblogs.com:172.16.54.128"
+      - "api.ing.cnblogs.com:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: uchome
     logging:
       driver: "json-file"
@@ -84,9 +86,9 @@ services:
       - "cache-server: cache.cnblogs.com"
     #   - redis
     extra_hosts:
-      - "dbserver:192.168.199.143"
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "dbserver:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: ucenter
 
   # academy:
@@ -97,9 +99,9 @@ services:
   #   # links:
   #   #   - redis
   #   extra_hosts:
-  #     - "dbserver:192.168.199.143"
-  #     - "memcached:192.168.199.143"
-  #     - "redis:192.168.199.143"
+  #     - "dbserver:172.16.54.128"
+  #     - "memcached:172.16.54.128"
+  #     - "redis:172.16.54.128"
   #   container_name: academy
 
   job:
@@ -108,9 +110,9 @@ services:
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
     extra_hosts:
-      - "dbserver:192.168.199.143"
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "dbserver:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: job
 
   edu-api:
@@ -121,9 +123,9 @@ services:
     volumes:
       - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
     extra_hosts:
-      - "dbserver:192.168.199.143"
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "dbserver:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: edu-api
 
   upload:
@@ -136,9 +138,9 @@ services:
       - "ucenter:service.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
     extra_hosts:
-      - "dbserver:192.168.199.143"
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "dbserver:172.16.54.128"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: upload
 
   cache-server:
@@ -149,8 +151,8 @@ services:
     volumes:
       - ~/Documents/CnblogsProjects/cache-service/src/Cnblogs.Cache.WebApi/bin/Debug/netcoreapp2.0/publish:/app
     extra_hosts:
-      - "memcached:192.168.199.143"
-      - "redis:192.168.199.143"
+      - "memcached:172.16.54.128"
+      - "redis:172.16.54.128"
     container_name: cache-server
 
   # roster:
