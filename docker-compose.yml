@@ -158,8 +158,10 @@ services:
   # roster:
   #   build:
   #     context: ./Dockerfiles
-  #     dockerfile: RosterDockerfile
+  #     dockerfile: roster
   #   restart: always
+  #   links:
+  #     - redis
   #   volumes:
   #     - ~/Documents/CnblogsProjects/CnblogsRoster/src/Web/bin/Debug/netcoreapp2.0/publish:/app
   #   container_name: roster
