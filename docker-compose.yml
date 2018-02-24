@@ -1,4 +1,4 @@
-version: "2"
+version: "3.2"
 services:
   identity:
     build:
@@ -7,12 +7,11 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp2.0/publish:/app
-    # links:
-    #   - service.ucenter.cnblogs.com
+    links:
+      - redis
+      - dbserver
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: identity
     logging:
       driver: "json-file"
@@ -58,8 +57,9 @@ services:
       - "job:api.job.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
       - "edu-api:api.edu.cnblogs.com"
+      - dbserver
+      - redis
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "ucenter.cnblogs.com:172.16.54.128"
       - "service.ucenter.cnblogs.com:172.16.54.128"
       - "service.msg.cnblogs.com:172.16.54.128"
@@ -68,7 +68,6 @@ services:
       - "kb.wcf.cnblogs.com:172.16.54.128"
       - "api.ing.cnblogs.com:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: uchome
     logging:
       driver: "json-file"
@@ -84,11 +83,10 @@ services:
       - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "cache-server: cache.cnblogs.com"
-    #   - redis
+      - dbserver
+      - redis
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: ucenter
 
   # academy:
@@ -109,10 +107,11 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    links:
+      - dbserver
+      - redis
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: job
 
   edu-api:
@@ -122,10 +121,11 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    links:
+      - dbserver
+      - redis
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: edu-api
 
   upload:
@@ -137,10 +137,10 @@ services:
       - "ucenter:api.ucenter.cnblogs.com"
       - "ucenter:service.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
+      - dbserver
+      - redis
     extra_hosts:
-      - "dbserver:172.16.54.128"
       - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
     container_name: upload
 
   cache-server:
@@ -150,9 +150,9 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/cache-service/src/Cnblogs.Cache.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    extra_hosts:
-      - "memcached:172.16.54.128"
-      - "redis:172.16.54.128"
+    links:
+      - dbserver
+      - redis
     container_name: cache-server
 
   # roster:
@@ -170,15 +170,16 @@ services:
     ports:
       - "80:80"
     links:
-      # - identity
+      - identity
       # - blog-admin
       - uchome
       - ucenter
       - job
       - redis
+      - dbserver
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
-      - /Users/Feng/Documents/CnblogsProjects/WebCommon:/www/data
+      - ~/Documents/CnblogsProjects/WebCommon:/www/data
     container_name: nginx-host
     logging:
       driver: "json-file"
@@ -192,3 +193,21 @@ services:
     ports:
       - "6379:6379"
     container_name: mac-redis 
+
+  dbserver:
+    image: microsoft/mssql-server-linux:2017-latest
+    restart: always
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Coding-Changes-World
+    ports:
+      - "1433:1433"
+    volumes:
+      - type: volume
+        source: sqlvolume
+        target: /var/opt/mssql
+    container_name: mssql
+  
+volumes:
+  sqlvolume:
+    external: true
