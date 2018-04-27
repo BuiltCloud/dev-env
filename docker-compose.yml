@@ -89,18 +89,16 @@ services:
       - "memcached:172.16.54.128"
     container_name: ucenter
 
-  # academy:
-  #   build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
-  #   restart: always
-  #   volumes:
-  #     - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
-  #   # links:
-  #   #   - redis
-  #   extra_hosts:
-  #     - "dbserver:172.16.54.128"
-  #     - "memcached:172.16.54.128"
-  #     - "redis:172.16.54.128"
-  #   container_name: academy
+  academy:
+    build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
+    links:
+      - dbserver
+      - redis
+      - "ucenter:api.ucenter.cnblogs.com"
+    container_name: academy
 
   job:
     build: ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi
