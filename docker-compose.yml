@@ -7,11 +7,10 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp2.0/publish:/app
-    links:
-      - redis
-      - dbserver
     extra_hosts:
       - "memcached:172.16.54.128"
+    networks:
+      - my-net
     container_name: identity
     logging:
       driver: "json-file"
@@ -57,8 +56,6 @@ services:
       - "job:api.job.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
       - "edu-api:api.edu.cnblogs.com"
-      - dbserver
-      - redis
     extra_hosts:
       - "ucenter.cnblogs.com:172.16.54.128"
       - "service.ucenter.cnblogs.com:172.16.54.128"
@@ -68,6 +65,8 @@ services:
       - "kb.wcf.cnblogs.com:172.16.54.128"
       - "api.ing.cnblogs.com:172.16.54.128"
       - "memcached:172.16.54.128"
+    networks:
+      - my-net
     container_name: uchome
     logging:
       driver: "json-file"
@@ -83,34 +82,31 @@ services:
       - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "cache-server: cache.cnblogs.com"
-      - dbserver
-      - redis
     extra_hosts:
       - "memcached:172.16.54.128"
     container_name: ucenter
+    networks:
+      - my-net
 
-  academy:
-    build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
-    restart: always
-    volumes:
-      - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
-    links:
-      - dbserver
-      - redis
-      - "ucenter:api.ucenter.cnblogs.com"
-    container_name: academy
+  # academy:
+  #   build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   links:
+  #     - "ucenter:api.ucenter.cnblogs.com"
+  #   container_name: academy
 
   job:
     build: ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    links:
-      - dbserver
-      - redis
     extra_hosts:
       - "memcached:172.16.54.128"
     container_name: job
+    networks:
+      - my-net
 
   edu-api:
     build: 
@@ -119,12 +115,11 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    links:
-      - dbserver
-      - redis
     extra_hosts:
       - "memcached:172.16.54.128"
     container_name: edu-api
+    networks:
+      - my-net
 
   upload:
     build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
@@ -135,11 +130,11 @@ services:
       - "ucenter:api.ucenter.cnblogs.com"
       - "ucenter:service.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
-      - dbserver
-      - redis
     extra_hosts:
       - "memcached:172.16.54.128"
     container_name: upload
+    networks:
+      - my-net
 
   cache-server:
     build:
@@ -148,10 +143,9 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/cache-service/src/Cnblogs.Cache.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    links:
-      - dbserver
-      - redis
     container_name: cache-server
+    networks:
+      - my-net
 
   # roster:
   #   build:
@@ -175,39 +169,43 @@ services:
       - uchome
       - ucenter
       - job
-      - redis
-      - dbserver
     volumes:
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
       - ~/Documents/CnblogsProjects/WebCommon:/www/data
     container_name: nginx-host
+    networks:
+      - my-net
     logging:
       driver: "json-file"
       options:
         max-size: "50k"
         max-file: "10"
 
-  redis:
-    build: ./redis/
-    restart: always
-    ports:
-      - "6379:6379"
-    container_name: mac-redis 
+  # redis:
+  #   build: ./redis/
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   container_name: mac-redis 
 
-  dbserver:
-    image: microsoft/mssql-server-linux:2017-latest
-    restart: always
-    environment:
-      ACCEPT_EULA: Y
-      MSSQL_SA_PASSWORD: Coding-Changes-World
-    ports:
-      - "1433:1433"
-    volumes:
-      - type: volume
-        source: sqlvolume
-        target: /var/opt/mssql
-    container_name: mssql
+  # dbserver:
+  #   image: microsoft/mssql-server-linux:2017-latest
+  #   restart: always
+  #   environment:
+  #     ACCEPT_EULA: Y
+  #     MSSQL_SA_PASSWORD: Coding-Changes-World
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - type: volume
+  #       source: sqlvolume
+  #       target: /var/opt/mssql
+  #   container_name: mssql
   
-volumes:
-  sqlvolume:
+# volumes:
+#   sqlvolume:
+#     external: true
+
+networks:
+  my-net:
     external: true
