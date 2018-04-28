@@ -7,8 +7,6 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp2.0/publish:/app
-    extra_hosts:
-      - "memcached:172.16.54.128"
     networks:
       - my-net
     container_name: identity
@@ -35,7 +33,6 @@ services:
   #     - "kb.wcf.cnblogs.com:172.16.54.128"
   #     - "job.cnblogs.com:172.16.54.128"
   #     - "api.ing.cnblogs.com:172.16.54.128"
-  #     - "memcached:172.16.54.128"
   #     - "redis:172.16.54.128"
   #     - "markdown.cnblogs.com:172.16.54.128"
   #     - "api.upload.cnblogs.com:172.16.54.128"
@@ -64,7 +61,6 @@ services:
       - "news.wcf.cnblogs.com:172.16.54.128"
       - "kb.wcf.cnblogs.com:172.16.54.128"
       - "api.ing.cnblogs.com:172.16.54.128"
-      - "memcached:172.16.54.128"
     networks:
       - my-net
     container_name: uchome
@@ -82,8 +78,6 @@ services:
       - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.0/publish:/app
     links:
       - "cache-server: cache.cnblogs.com"
-    extra_hosts:
-      - "memcached:172.16.54.128"
     container_name: ucenter
     networks:
       - my-net
@@ -102,8 +96,6 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    extra_hosts:
-      - "memcached:172.16.54.128"
     container_name: job
     networks:
       - my-net
@@ -115,8 +107,6 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
-    extra_hosts:
-      - "memcached:172.16.54.128"
     container_name: edu-api
     networks:
       - my-net
@@ -130,8 +120,6 @@ services:
       - "ucenter:api.ucenter.cnblogs.com"
       - "ucenter:service.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
-    extra_hosts:
-      - "memcached:172.16.54.128"
     container_name: upload
     networks:
       - my-net
