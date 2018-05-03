@@ -1,4 +1,4 @@
-docker run -d --hostname my-rabbit \
+docker run --rm -d --hostname my-rabbit \
 --name rabbit \
 -p 5671:5671 \
 -p 5672:5672 \
