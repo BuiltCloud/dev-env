@@ -1,5 +1,6 @@
 #!/bin/bash
-docker run --rm -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=Coding-Changes-World' \
+docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=Coding-Changes-World' \
+--restart unless-stopped \
 -p 1433:1433 -v sqlvolume:/var/opt/mssql \
 --network my-net \
 --name dbserver \

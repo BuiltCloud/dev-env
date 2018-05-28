@@ -1,5 +1,6 @@
 #!/bin/bash
-docker run --rm --name memcached \
+docker run --name memcached \
+--restart unless-stopped \
 -p 11211:11211 \
 --network my-net \
 -d memcached memcached -m 64
