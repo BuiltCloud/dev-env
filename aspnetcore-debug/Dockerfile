@@ -1,6 +1,6 @@
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 
-LABEL Name=aspnetcore-debug Version=latest
+LABEL Name=aspnetcore-debug Version=2.1
 
 ENV TZ=Asia/Shanghai
 

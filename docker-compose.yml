@@ -47,12 +47,13 @@ services:
     build: ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web
     restart: always
     volumes:
-      - ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.0/publish:/app
+      - ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.1/publish:/app
     links:
       - "ucenter:api.ucenter.cnblogs.com"
       - "job:api.job.cnblogs.com"
       - "cache-server: cache.cnblogs.com"
       - "edu-api:api.edu.cnblogs.com"
+      - "ucenter:ucenter_api"
     extra_hosts:
       - "ucenter.cnblogs.com:172.16.54.128"
       - "service.ucenter.cnblogs.com:172.16.54.128"
