@@ -48,7 +48,7 @@ server {
 
  server {
    listen 80;
-   server_name ucenter-webapi.cnblogs.com api.ucenter.cnblogs.com;
+   server_name ucenter-webapi.cnblogs.com api.ucenter.cnblogs.com ucenter_api;
    location / {
      proxy_pass          http://ucenter;
      proxy_set_header    Host $host;
@@ -64,7 +64,7 @@ server {
 
  server {
    listen 80;
-   server_name api.job.cnblogs.com;
+   server_name api.job.cnblogs.com job_api;
    location / {
      proxy_pass          http://job;
      proxy_set_header    Host $host;
@@ -96,7 +96,7 @@ server {
 
  server {
    listen 80;
-   server_name api.edu.cnblogs.com;
+   server_name api.edu.cnblogs.com edu_api;
    location / {
      proxy_pass          http://edu-api;
      proxy_set_header    Host $host;
