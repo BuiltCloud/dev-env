@@ -116,7 +116,7 @@ services:
     build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
     restart: always
     volumes:
-      - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.0/publish:/app
+      - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.1/publish:/app
     links:
       - "ucenter:api.ucenter.cnblogs.com"
       - "ucenter:service.cnblogs.com"
