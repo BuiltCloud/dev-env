@@ -112,6 +112,17 @@ services:
     networks:
       - my-net
 
+  msg-api:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: msg
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsMsg/src/CNBlogs.Msg.WebAPI/bin/Debug/netcoreapp2.1/publish:/app
+    container_name: msg-api
+    networks:
+      - my-net
+
   upload:
     build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
     restart: always
