@@ -119,22 +119,26 @@ services:
     restart: always
     volumes:
       - ~/Documents/CnblogsProjects/CNBlogsMsg/src/CNBlogs.Msg.WebAPI/bin/Debug/netcoreapp2.1/publish:/app
+    links:
+      - "ucenter:api.ucenter.cnblogs.com"
+      - "cache-server: cache.cnblogs.com"
+      - "ucenter:ucenter_api"
     container_name: msg-api
     networks:
       - my-net
 
-  upload:
-    build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
-    restart: always
-    volumes:
-      - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.1/publish:/app
-    links:
-      - "ucenter:api.ucenter.cnblogs.com"
-      - "ucenter:service.cnblogs.com"
-      - "cache-server: cache.cnblogs.com"
-    container_name: upload
-    networks:
-      - my-net
+  # upload:
+  #   build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.1/publish:/app
+  #   links:
+  #     - "ucenter:api.ucenter.cnblogs.com"
+  #     - "ucenter:service.cnblogs.com"
+  #     - "cache-server: cache.cnblogs.com"
+  #   container_name: upload
+  #   networks:
+  #     - my-net
 
   cache-server:
     build:
