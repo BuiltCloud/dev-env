@@ -1,5 +1,6 @@
 docker run \
 -p 5672:5672 \
+-p 15672:15672 \
 -e RABBITMQ_DEFAULT_USER=rabbitAdmin \
 -e RABBITMQ_DEFAULT_PASS=ABCDefg \
 -v rabbit_volume:/var/lib/rabbitmq \
