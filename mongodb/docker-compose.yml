@@ -1,0 +1,74 @@
+version: '3.2'
+
+services:
+
+  mongo1:
+    image: mongo
+    container_name: mongo1
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongo_volumn:/data/db"
+      - "mongo_cfg_volume:/data/configdb"
+    command: --replSet my-mongo-set
+
+  mongo2:
+    image: mongo
+    container_name: mongo2
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - 27018:27017
+    volumes:
+      - "mongo2:/data/db"
+      - "mongo2_cfg:/data/configdb"
+    command: --replSet my-mongo-set
+    depends_on: 
+      - mongo1
+  
+  mongo3:
+    image: mongo
+    container_name: mongo3
+    restart: always
+    networks: 
+      - my-net
+    ports:
+      - 27019:27017
+    volumes:
+      - "mongo3:/data/db"
+      - "mongo3_cfg:/data/configdb"
+    command: --replSet my-mongo-set
+    depends_on: 
+      - mongo1
+      - mongo2
+
+  mongo_setup:
+    image: mongo
+    container_name: mongo_setup
+    networks: 
+      - my-net
+    depends_on: 
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes: 
+      - ./scripts:/scripts
+    entrypoint: ["/scripts/setup.sh" ]
+
+networks:
+  my-net:
+    external: true
+
+volumes:
+  mongo_volumn:
+    external: true
+  mongo_cfg_volume:
+    external: true
+  mongo2:
+  mongo2_cfg:
+  mongo3:
+  mongo3_cfg:
