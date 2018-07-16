@@ -3,6 +3,7 @@ version: '3.2'
 services:
 
   mongo1:
+    hostname: mongo1
     image: mongo
     container_name: mongo1
     restart: always
@@ -16,6 +17,7 @@ services:
     command: --replSet my-mongo-set
 
   mongo2:
+    hostname: mongo2
     image: mongo
     container_name: mongo2
     restart: always
@@ -31,6 +33,7 @@ services:
       - mongo1
   
   mongo3:
+    hostname: mongo3
     image: mongo
     container_name: mongo3
     restart: always
@@ -45,19 +48,19 @@ services:
     depends_on: 
       - mongo1
       - mongo2
-
-  mongo_setup:
+  
+  mongosetup:
     image: mongo
-    container_name: mongo_setup
     networks: 
       - my-net
-    depends_on: 
+    depends_on:
       - mongo1
       - mongo2
       - mongo3
-    volumes: 
+    volumes:
       - ./scripts:/scripts
-    entrypoint: ["/scripts/setup.sh" ]
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/setup.sh" ]
 
 networks:
   my-net:
@@ -69,6 +72,10 @@ volumes:
   mongo_cfg_volume:
     external: true
   mongo2:
+    external: true
   mongo2_cfg:
+    external: true
   mongo3:
+    external: true
   mongo3_cfg:
+    external: true
