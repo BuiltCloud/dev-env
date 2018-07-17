@@ -14,7 +14,7 @@ services:
     volumes:
       - "mongo_volumn:/data/db"
       - "mongo_cfg_volume:/data/configdb"
-    command: --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set" ]
 
   mongo2:
     hostname: mongo2
@@ -24,11 +24,11 @@ services:
     networks:
       - my-net
     ports:
-      - 27018:27017
+      - 27018:27018
     volumes:
       - "mongo2:/data/db"
       - "mongo2_cfg:/data/configdb"
-    command: --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set", "--port", "27018" ]
     depends_on: 
       - mongo1
   
@@ -40,11 +40,11 @@ services:
     networks: 
       - my-net
     ports:
-      - 27019:27017
+      - 27019:27019
     volumes:
       - "mongo3:/data/db"
       - "mongo3_cfg:/data/configdb"
-    command: --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set", "--port", "27019" ]
     depends_on: 
       - mongo1
       - mongo2
