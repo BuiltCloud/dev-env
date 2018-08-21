@@ -76,7 +76,7 @@ services:
     restart: always
     # mem_limit: 60m
     volumes:
-      - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.0/publish:/app
+      - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.1/publish:/app
     links:
       - "cache-server: cache.cnblogs.com"
     container_name: ucenter
